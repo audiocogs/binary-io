@@ -1,19 +1,19 @@
 import BufferList from './bufferlist';
 import UnderflowError from './underflow';
 
-let buf = new ArrayBuffer(16);
-let uint8 = new Uint8Array(buf);
-let int8 = new Int8Array(buf);
-let uint16 = new Uint16Array(buf);
-let int16 = new Int16Array(buf);
-let uint32 = new Uint32Array(buf);
-let int32 = new Int32Array(buf);
-let float32 = new Float32Array(buf);
-let float64 = new Float64Array(buf);
+const buf = new ArrayBuffer(16);
+const uint8 = new Uint8Array(buf);
+const int8 = new Int8Array(buf);
+const uint16 = new Uint16Array(buf);
+const int16 = new Int16Array(buf);
+const uint32 = new Uint32Array(buf);
+const int32 = new Int32Array(buf);
+const float32 = new Float32Array(buf);
+const float64 = new Float64Array(buf);
 
 // detect the native endianness of the machine
 // 0x3412 is little endian, 0x1234 is big endian
-let nativeEndian = new Uint16Array(new Uint8Array([0x12, 0x34]).buffer)[0] === 0x3412;
+const nativeEndian = new Uint16Array(new Uint8Array([0x12, 0x34]).buffer)[0] === 0x3412;
 
 export default class Stream {
   constructor(list) {
