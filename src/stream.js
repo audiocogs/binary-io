@@ -73,7 +73,7 @@ export default class Stream {
     this.localOffset -= bytes;
     this.offset -= bytes;
     
-    while (this.list.first.prev && this.localOffset < 0) {
+    while (this.list.canRewind() && this.localOffset < 0) {
       this.list.rewind();
       this.localOffset += this.list.first.length;
     }
@@ -121,7 +121,7 @@ export default class Stream {
       }
 
       offset -= buffer.length;
-      buffer = buffer.next;
+      buffer = this.list.next(buffer);
     }
 
     return 0;

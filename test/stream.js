@@ -18,7 +18,9 @@ describe('stream', function() {
     let copy = stream.copy();
     
     assert.notEqual(copy, stream);
-    assert.deepEqual(copy, stream);
+    assert.equal(copy.localOffset, stream.localOffset);
+    assert.equal(copy.offset, stream.offset);
+    assert.deepEqual(copy.readBuffer(5), new Uint8Array([10, 160, 20, 29, 119]));
   });
     
   it('advance', function() {
@@ -28,8 +30,7 @@ describe('stream', function() {
     stream.advance(2);
     assert.equal(2, stream.offset);
     
-    assert.throws(() => stream.advance(10)
-    , UnderflowError);
+    assert.throws(() => stream.advance(10), UnderflowError);
   });
     
   it('rewind', function() {
@@ -60,8 +61,7 @@ describe('stream', function() {
     assert.equal(1, stream.offset);
     assert.equal(1, stream.localOffset);
     
-    assert.throws(() => stream.rewind(10)
-    , UnderflowError);
+    assert.throws(() => stream.rewind(10), UnderflowError);
   });
     
   it('seek', function() {
@@ -111,8 +111,7 @@ describe('stream', function() {
       assert.equal(value, stream.peekUInt8(i));
     }
       
-    assert.throws(() => stream.peekUInt8(10)
-    , UnderflowError);
+    assert.throws(() => stream.peekUInt8(10), UnderflowError);
 
     // check reading across buffers
     for (let j = 0; j < values.length; j++) {
@@ -120,8 +119,7 @@ describe('stream', function() {
       assert.equal(value, stream.readUInt8());
     }
       
-    assert.throws(() => stream.readUInt8()
-    , UnderflowError);
+    assert.throws(() => stream.readUInt8(), UnderflowError);
 
     // if it were a signed int, would be -1
     stream = makeStream([255, 23]);

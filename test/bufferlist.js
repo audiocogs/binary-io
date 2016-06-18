@@ -12,8 +12,8 @@ describe('bufferlist', function() {
     assert.equal(3, list.availableBytes);
     assert.equal(buffer, list.first);
     assert.equal(buffer, list.last);
-    assert.equal(null, buffer.prev);
-    assert.equal(null, buffer.next);
+    assert.equal(null, list.prev(buffer));
+    assert.equal(null, list.next(buffer));
     
     let buffer2 = new Uint8Array([4, 5, 6]);
     list.append(buffer2);
@@ -24,10 +24,10 @@ describe('bufferlist', function() {
     assert.equal(buffer, list.first);
     assert.equal(buffer2, list.last);
     
-    assert.equal(null, buffer.prev);
-    assert.equal(buffer2, buffer.next);
-    assert.equal(buffer, buffer2.prev);
-    assert.equal(null, buffer2.next);
+    assert.equal(null, list.prev(buffer));
+    assert.equal(buffer2, list.next(buffer));
+    assert.equal(buffer, list.prev(buffer2));
+    assert.equal(null, list.next(buffer2));
   });
     
   it('advance', function() {

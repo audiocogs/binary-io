@@ -1,5 +1,8 @@
 export default class BufferList {
   constructor() {
+    this._next = Symbol('next');
+    this._prev = Symbol('prev');
+    
     this.first = null;
     this.last = null;
     this.numBuffers = 0;
@@ -16,13 +19,20 @@ export default class BufferList {
     result.availableBytes = this.availableBytes;
     result.availableBuffers = this.availableBuffers;
     
+    let buffer = result.first;
+    while (buffer) {
+      buffer[result._next] = buffer[this._next];
+      buffer[result._prev] = buffer[this._prev];
+      buffer = buffer[this._next];
+    }
+    
     return result;
   }
     
   append(buffer) {
-    buffer.prev = this.last;
+    buffer[this._prev] = this.last;
     if (this.last) {
-      this.last.next = buffer;
+      this.last[this._next] = buffer;
     }
       
     this.last = buffer;
@@ -39,7 +49,7 @@ export default class BufferList {
     if (this.first) {
       this.availableBytes -= this.first.length;
       this.availableBuffers--;
-      this.first = this.first.next;
+      this.first = this.first[this._next];
       return this.first != null;
     }
       
@@ -47,11 +57,11 @@ export default class BufferList {
   }
     
   rewind() {
-    if (this.first && !this.first.prev) {
+    if (this.first && !this.first[this._prev]) {
       return false;
     }
     
-    this.first = (this.first && this.first.prev) || this.last;
+    this.first = (this.first && this.first[this._prev]) || this.last;
     if (this.first) {
       this.availableBytes += this.first.length;
       this.availableBuffers++;
@@ -62,5 +72,21 @@ export default class BufferList {
   
   reset() {
     while (this.rewind());
+  }
+  
+  canAdvance() {
+    return !!this.first[this._next];
+  }
+  
+  canRewind() {
+    return !!this.first[this._prev];
+  }
+  
+  next(buffer) {
+    return buffer[this._next];
+  }
+  
+  prev(buffer) {
+    return buffer[this._prev];
   }
 }

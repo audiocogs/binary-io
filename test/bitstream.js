@@ -13,7 +13,7 @@ describe('bitstream', function() {
     let copy = bitstream.copy();
     
     assert.notEqual(copy, bitstream);
-    assert.deepEqual(copy, bitstream);
+    assert.equal(copy.bitPosition, bitstream.bitPosition);
   });
     
   it('advance', function() {
