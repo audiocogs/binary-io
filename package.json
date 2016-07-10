@@ -1,0 +1,18 @@
+{
+  "name": "stream-reader",
+  "version": "1.0.0",
+  "description": "Streaming binary data and bitstream reader",
+  "keywords": ["stream", "binary", "byte", "bit", "bitstream"],
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": {
+    "name": "Audiocogs",
+    "url": "http://audiocogs.org/"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "mocha": "^2.5.3"
+  }
+}
