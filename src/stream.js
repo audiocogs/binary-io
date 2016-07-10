@@ -21,13 +21,13 @@ export default class Stream {
     this.localOffset = 0;
     this.offset = 0;
   }
-    
+  
   static fromBuffer(buffer) {
-    let list = new BufferList();
+    let list = new BufferList;
     list.append(buffer);
     return new Stream(list);
   }
-   
+  
   copy() {
     let result = new Stream(this.list.copy());
     result.localOffset = this.localOffset;
@@ -45,7 +45,7 @@ export default class Stream {
   
   advance(bytes) {
     if (!this.available(bytes)) {
-      throw new UnderflowError();
+      throw new UnderflowError;
     }
     
     this.localOffset += bytes;
@@ -61,7 +61,7 @@ export default class Stream {
     
   rewind(bytes) {
     if (bytes > this.offset) {
-      throw new UnderflowError();
+      throw new UnderflowError;
     }
     
     // if we're at the end of the bufferlist, seek from the end
@@ -92,7 +92,7 @@ export default class Stream {
     
   readUInt8() {
     if (!this.available(1)) {
-      throw new UnderflowError();
+      throw new UnderflowError;
     }
     
     let a = this.list.first[this.localOffset];
@@ -109,7 +109,7 @@ export default class Stream {
 
   peekUInt8(offset = 0) {
     if (!this.available(offset + 1)) {
-      throw new UnderflowError();
+      throw new UnderflowError;
     }
     
     offset = this.localOffset + offset;
@@ -137,8 +137,6 @@ export default class Stream {
         uint8[i] = this.readUInt8();
       }
     }
-    
-    return;
   }
     
   peek(bytes, offset, littleEndian = false) {
@@ -151,8 +149,6 @@ export default class Stream {
         uint8[bytes - i - 1] = this.peekUInt8(offset + i);
       }
     }
-        
-    return;
   }
     
   readInt8() {
@@ -316,13 +312,13 @@ export default class Stream {
   }
 
   readSingleBuffer(length) {
-    let result = this.list.first.slice(this.localOffset, length);
+    let result = this.list.first.subarray(this.localOffset, length);
     this.advance(result.length);
     return result;
   }
 
   peekSingleBuffer(offset, length) {
-    let result = this.list.first.slice(this.localOffset + offset, length);
+    let result = this.list.first.subarray(this.localOffset + offset, length);
     return result;
   }
   

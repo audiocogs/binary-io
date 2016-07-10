@@ -4,7 +4,7 @@ export default class UnderflowError extends Error {
     super();
     this.name = 'UnderflowError';
     
-    if (Error.captureStackTrace) {
+    if (typeof Error.captureStackTrace === 'function') {
       Error.captureStackTrace(this, this.constructor);
     } else {
       this.stack = new Error().stack;
