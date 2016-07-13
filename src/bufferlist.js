@@ -1,7 +1,12 @@
-export default class BufferList {
-  constructor() {
+import {Writable} from 'stream';
+
+export default class BufferList extends Writable {
+  constructor(options) {
+    super();
+    
     this._next = Symbol('next');
     this._prev = Symbol('prev');
+    this._callback = Symbol('callback');
     
     this.first = null;
     this.last = null;
@@ -28,8 +33,9 @@ export default class BufferList {
     
     return result;
   }
-    
-  append(buffer) {
+  
+  append(buffer, callback) {
+    buffer[this._callback] = callback;
     buffer[this._prev] = this.last;
     if (this.last) {
       this.last[this._next] = buffer;
@@ -44,12 +50,18 @@ export default class BufferList {
     this.availableBuffers++;
     return this.numBuffers++;
   }
-    
+  
+  _write(buffer, encoding, callback) {
+    this.append(buffer, callback);
+  }
+  
   advance() {
-    if (this.first) {
-      this.availableBytes -= this.first.length;
+    let first = this.first;
+    if (first) {
+      this.callback(first);
+      this.availableBytes -= first.length;
       this.availableBuffers--;
-      this.first = this.first[this._next];
+      this.first = first[this._next];
       return this.first != null;
     }
       
@@ -88,5 +100,13 @@ export default class BufferList {
   
   prev(buffer) {
     return buffer[this._prev];
+  }
+  
+  callback(buffer = this.last) {
+    let callback = buffer && buffer[this._callback];
+    if (typeof callback === 'function') {
+      delete buffer[this._callback];
+      callback();
+    }
   }
 }
