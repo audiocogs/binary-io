@@ -312,13 +312,22 @@ export default class Stream {
   }
 
   readSingleBuffer(length) {
-    let result = this.list.first.subarray(this.localOffset, length);
+    if (!this.available(1)) {
+      throw new UnderflowError;
+    }
+    
+    let result = this.list.first.subarray(this.localOffset, this.localOffset + length);
     this.advance(result.length);
     return result;
   }
 
   peekSingleBuffer(offset, length) {
-    let result = this.list.first.subarray(this.localOffset + offset, length);
+    if (!this.available(offset + 1)) {
+      throw new UnderflowError;
+    }
+    
+    offset += this.localOffset;
+    let result = this.list.first.subarray(offset, offset + length);
     return result;
   }
   
