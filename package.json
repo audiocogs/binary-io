@@ -1,7 +1,7 @@
 {
-  "name": "stream-reader",
+  "name": "binary-io",
   "version": "1.0.0",
-  "description": "Streaming binary data and bitstream reader",
+  "description": "Streaming byte and bit stream reader and writer",
   "keywords": ["stream", "binary", "byte", "bit", "bitstream"],
   "main": "index.js",
   "scripts": {

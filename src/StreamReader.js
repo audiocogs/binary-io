@@ -15,7 +15,7 @@ const float64 = new Float64Array(buf);
 // 0x3412 is little endian, 0x1234 is big endian
 const nativeEndian = new Uint16Array(new Uint8Array([0x12, 0x34]).buffer)[0] === 0x3412;
 
-export default class Stream {
+export default class StreamReader {
   constructor(list) {
     this.list = list;
     this.localOffset = 0;
@@ -25,11 +25,11 @@ export default class Stream {
   static fromBuffer(buffer) {
     let list = new BufferList;
     list.append(buffer);
-    return new Stream(list);
+    return new StreamReader(list);
   }
   
   copy() {
-    let result = new Stream(this.list.copy());
+    let result = new StreamReader(this.list.copy());
     result.localOffset = this.localOffset;
     result.offset = this.offset;
     return result;

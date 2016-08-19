@@ -1,17 +1,17 @@
-import Stream from './stream';
+import StreamReader from './StreamReader';
 
-export default class Bitstream {
+export default class BitstreamReader {
   constructor(stream) {
     this.stream = stream;
     this.bitPosition = 0;
   }
   
   static fromBuffer(buffer) {
-    return new Bitstream(Stream.fromBuffer(buffer));
+    return new BitstreamReader(StreamReader.fromBuffer(buffer));
   }
 
   copy() {
-    let result = new Bitstream(this.stream.copy());
+    let result = new BitstreamReader(this.stream.copy());
     result.bitPosition = this.bitPosition;
     return result;
   }

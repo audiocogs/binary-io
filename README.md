@@ -1,18 +1,26 @@
-# stream-reader
+# binary-io
 
-Streaming binary data and bitstream reader. Extracted from [aurora.js](https://github.com/audiocogs/aurora.js).
+Streaming byte and bit stream reader and writer. Extracted from [aurora.js](https://github.com/audiocogs/aurora.js).
 
 ## BufferList
 
 A `BufferList` is represents a linked list of byte buffers. It manages the current total length of the list and is used by the `Stream` class internally.
 
-## Stream
+## StreamReader
 
-The `Stream` class represents a stream of binary data backed by a `BufferList`. Streams handle the complexity of reading various types of values from a binary data stream for you, including issues regarding the native endianness of the platform.
+The `StreamReader` class reads a stream of binary data backed by a `BufferList`. `StreamReader` handles the complexity of reading various types of values from a binary data stream for you, including issues regarding the native endianness of the platform.
 
-## Bitstream
+## BitstreamReader
 
-The `Bitstream` class wraps a `Stream` and adds methods to read data on an individual bit level.
+The `BitstreamReader` class wraps a `StreamReader` and adds methods to read data on an individual bit level.
+
+## StreamWriter
+
+The `StreamWriter` class writes various binary data types to a writable stream.
+
+## BitstreamWriter
+
+The `BitstreamWriter` class wraps a `StreamWriter`, and adds methods to write data on an individual bit level.
 
 ## License
 
